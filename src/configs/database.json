@@ -1,10 +1,11 @@
 {
-  "prod": {
+  "dev": {
     "driver": "mysql",
     "user": { "ENV": "MYSQL_USER" },
     "password": { "ENV": "MYSQL_PASSWORD" },
     "host": "localhost",
-    "database": "split_scan_bot",
-    "port": 3306
+    "database": "split_scan_mysql",
+    "port": 3306,
+    "charset": "utf8mb4"
   }
 }
