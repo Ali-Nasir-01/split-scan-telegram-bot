@@ -1,0 +1,22 @@
+{
+  "name": "split-scan-telegram-bot",
+  "module": "src/index.ts",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "migrate": "db-migrate up --config src/configs/database.json --migrations-dir src/migrations",
+    "migrate:undo": "db-migrate down --config src/configs/database.json --migrations-dir src/migrations"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "db-migrate": "^0.11.14",
+    "openai": "^5.19.1",
+    "telegraf": "^4.16.3"
+  }
+}
