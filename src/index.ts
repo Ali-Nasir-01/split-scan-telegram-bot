@@ -1,11 +1,16 @@
-import { registerScanCommand } from "./commands/scan";
+// import { registerScanCommand } from "./commands/scan";
+import { createUser } from "./models/users";
 import botApi from "./services/telegramref";
 
-botApi.start((ctx) =>
-  ctx.reply("Welcome! Send me a message and I'll echo it back.")
-);
+botApi.start((ctx) => {
+  const telegramId = ctx.from?.id;
 
-registerScanCommand();
+  createUser(telegramId.toString()).then(() => {
+    ctx.reply("Welcome! You have been registered.");
+  });
+});
+
+// registerScanCommand();
 
 botApi.launch();
 
