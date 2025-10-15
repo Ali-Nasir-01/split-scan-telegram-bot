@@ -1,0 +1,25 @@
+{
+  "name": "split-scan-telegram-bot",
+  "module": "src/index.ts",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "db:generate": "npx drizzle-kit generate",
+    "db:push": "npx drizzle-kit push",
+    "db:studio": "npx drizzle-kit studio"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "drizzle-kit": "^0.31.5",
+    "drizzle-orm": "^0.44.6",
+    "mysql2": "^3.15.2",
+    "openai": "^5.19.1",
+    "telegraf": "^4.16.3"
+  }
+}
