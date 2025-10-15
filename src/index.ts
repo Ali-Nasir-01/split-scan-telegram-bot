@@ -1,12 +1,16 @@
 // import { registerScanCommand } from "./commands/scan";
 import { createUser } from "./models/users";
+import { stage } from "./scenes";
 import botApi from "./services/telegramref";
 
-botApi.start((ctx) => {
+botApi.use(stage.middleware());
+
+botApi.start(async (ctx) => {
   const telegramId = ctx.from?.id;
 
-  createUser(telegramId.toString()).then(() => {
-    ctx.reply("Welcome! You have been registered.");
+  createUser(telegramId.toString()).then(async () => {
+    await ctx.reply("Welcome! You have been registered.");
+    await ctx.scene.enter("languageScene");
   });
 });
 

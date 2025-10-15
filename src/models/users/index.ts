@@ -19,3 +19,10 @@ export async function getUserByTelegramId(telegramId: string) {
 export async function getAllUsers() {
   return db.select().from(users).execute();
 }
+
+export async function updateUserLanguage(telegramId: string, language: string) {
+  await db
+    .update(users)
+    .set({ language })
+    .where(eq(users.telegramId, telegramId));
+}
