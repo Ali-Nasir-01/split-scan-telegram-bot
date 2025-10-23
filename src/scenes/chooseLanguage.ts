@@ -8,7 +8,7 @@ const languageScene = new Scenes.BaseScene<Scenes.SceneContext>(
 languageScene.enter((ctx) => {
   ctx.reply(
     "Please select your language:",
-    Markup.keyboard([
+    Markup.inlineKeyboard([
       [Markup.button.callback("🇺🇸 English", "lang_en")],
       [Markup.button.callback("🇮🇷 فارسی", "lang_fa")],
     ])
@@ -19,14 +19,16 @@ languageScene.action("lang_en", async (ctx) => {
   await ctx.answerCbQuery();
   ctx.session.language = "en";
   await updateUserLanguage(ctx.from.id.toString(), "en");
-  await ctx.reply("Language set to English.");
+  ctx.i18n.locale("en");
+  await ctx.reply(ctx.i18n.t("language_selected"));
   //   await ctx.scene.enter("mainMenuScene");
 });
 
 languageScene.action("lang_fa", async (ctx) => {
   await ctx.answerCbQuery();
   ctx.session.language = "fa";
-  await ctx.reply("زبان شما فارسی تنظیم شد.");
+  ctx.i18n.locale("fa");
+  await ctx.reply(ctx.i18n.t("language_selected"));
   //   await ctx.scene.enter("mainMenuScene");
 });
 

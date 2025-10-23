@@ -13,7 +13,7 @@ mainMenuScene.enter(async (ctx) => {
   }
 
   const user = await getUserByTelegramId(telegramId);
-  const language = user[0]?.language || "en";
+  const language = user[0]?.language || "fa";
 
   const buttons =
     language === "fa"

@@ -1,8 +1,10 @@
 // import { registerScanCommand } from "./commands/scan";
 import { createUser } from "./models/users";
 import { stage } from "./scenes";
+import i18n from "./services/i18n";
 import botApi from "./services/telegramref";
 
+botApi.use(i18n.middleware());
 botApi.use(stage.middleware());
 
 botApi.start(async (ctx) => {
