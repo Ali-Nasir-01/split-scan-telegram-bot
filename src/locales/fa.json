@@ -1,3 +1,8 @@
 {
-  "language_selected": "زبان شما فارسی تنظیم شد."
+  "language_selected": "زبان شما فارسی تنظیم شد.",
+  "manage_friends": "مدیریت دوستان",
+  "scan_recipts": "اسکن رسیدها",
+  "welcome_message": "به منوی اصلی خوش آمدید! لطفاً یک گزینه را انتخاب کنید:",
+  "manage_friends_selected": "شما گزینه مدیریت دوستان را انتخاب کردید. \n میخوای دوستاتو اضافه کنی یا حذف؟",
+  "error:unable_retrieve_user_information": "خطا در بازیابی اطلاعات کاربر."
 }

@@ -1,3 +1,8 @@
 {
-  "language_selected": "Language set to English."
+  "language_selected": "Language set to English.",
+  "manage_friends": "Manage Friends",
+  "scan_recipts": "Scan Receipts",
+  "welcome_message": "Welcome to the main menu! Please choose an option:",
+  "manage_friends_selected": "You selected the Manage Friends option. \n Do you want to add or remove friends?",
+  "error:unable_retrieve_user_information": "Unable to retrieve user information."
 }

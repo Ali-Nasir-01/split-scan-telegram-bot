@@ -21,7 +21,7 @@ languageScene.action("lang_en", async (ctx) => {
   await updateUserLanguage(ctx.from.id.toString(), "en");
   ctx.i18n.locale("en");
   await ctx.reply(ctx.i18n.t("language_selected"));
-  //   await ctx.scene.enter("mainMenuScene");
+  await ctx.scene.enter("mainMenuScene");
 });
 
 languageScene.action("lang_fa", async (ctx) => {
@@ -29,7 +29,7 @@ languageScene.action("lang_fa", async (ctx) => {
   ctx.session.language = "fa";
   ctx.i18n.locale("fa");
   await ctx.reply(ctx.i18n.t("language_selected"));
-  //   await ctx.scene.enter("mainMenuScene");
+  await ctx.scene.enter("mainMenuScene");
 });
 
 export default languageScene;
