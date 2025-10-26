@@ -2,9 +2,19 @@ import { Markup, Scenes } from "telegraf";
 import { useTelegramId } from "../utils";
 import { createFriend, getFriendsByUserId } from "../models/friends";
 
-const manageFriendsScene = new Scenes.BaseScene<Scenes.SceneContext>(
-  "manageFriendsScene"
-);
+interface SceneState {
+  waitingForFriendName: boolean;
+}
+
+interface I18nContext {
+  i18n: {
+    t(key: string, params?: { [key: string]: string }): string;
+  };
+}
+
+const manageFriendsScene = new Scenes.BaseScene<
+  Scenes.SceneContext & I18nContext & { scene: { state: SceneState } }
+>("manageFriendsScene");
 
 manageFriendsScene.enter(async (ctx) => {
   const message = ctx.i18n.t("manage_friends_welcome");
@@ -65,38 +75,41 @@ manageFriendsScene.action("add_friend", async (ctx) => {
   }
 
   await ctx.reply(ctx.i18n.t("add_friend_prompt_name"));
-  // wait for the user's response and save his friend name
-  const friendName = async (responseCtx: Scenes.SceneContext) => {
-    const friendName = responseCtx.message?.text;
-    if (!friendName) {
-      await responseCtx.reply(ctx.i18n.t("error:invalid_friend_name"));
+  ctx.scene.state.waitingForFriendName = true;
+});
+
+manageFriendsScene.on("text", async (ctx) => {
+  if (ctx.scene.state.waitingForFriendName) {
+    const name = ctx.message.text || "Unnamed Friend";
+    const telegramId = useTelegramId(ctx);
+
+    if (!telegramId) {
+      await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
       return;
     }
 
-    return friendName;
-  };
+    await createFriend(parseInt(telegramId), name);
+    await ctx.reply(ctx.i18n.t("add_friend_success", { name }));
 
-  const { name } = await createFriend(
-    parseInt(telegramId),
-    await friendName(ctx)
-  );
+    ctx.scene.state.waitingForFriendName = false;
 
-  await ctx.reply(ctx.i18n.t("add_friend_success", { name }));
+    const buttons = [
+      [Markup.button.callback(ctx.i18n.t("list_friends"), "list_friends")],
+      [Markup.button.callback(ctx.i18n.t("add_friend"), "add_friend")],
+      [Markup.button.callback(ctx.i18n.t("remove_friend"), "remove_friend")],
+      [
+        Markup.button.callback(
+          ctx.i18n.t("back_to_main_menu"),
+          "back_to_main_menu"
+        ),
+      ],
+    ];
 
-  //   await ctx.reply(ctx.i18n.t("add_friend_prompt_get_telegram_id"));
-
-  //   const friendTelegramIdHandler = async (responseCtx: Scenes.SceneContext) => {
-  //     const friendTelegramIdText = responseCtx.message?.text;
-  //     const friendTelegramId = friendTelegramIdText
-  //       ? parseInt(friendTelegramIdText)
-  //       : NaN;
-  //     if (isNaN(friendTelegramId)) {
-  //       await responseCtx.reply(ctx.i18n.t("error:invalid_telegram_id"));
-  //       return;
-  //     }
-
-  //     return friendTelegramId;
-  //   }
+    await ctx.reply(
+      ctx.i18n.t("manage_friends_options"),
+      Markup.inlineKeyboard(buttons)
+    );
+  }
 });
 
 export default manageFriendsScene;

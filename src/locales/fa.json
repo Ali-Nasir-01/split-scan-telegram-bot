@@ -13,6 +13,6 @@
   "friends_list": "لیست دوستان شما:\n{{friends}}",
   "add_friend_prompt_get_name": "نام دوستی که میخوای اضافه کنی رو بفرست:",
   "add_friend_prompt_get_telegram_id": "میتونی آیدی تلگرام دوستت رو بفرستی اگه میخوای وقتی اون عضو ربات شد باهاش مدیریت طبلکاری و بدهکاری داشته باشی: \n (اگه نمیخوای اینو بفرستی هم مشکلی نیست میتونی بعدا اضافه کنی)",
-  "add_friend_success": "{{name}} با موفقیت اضافه شد!",
+  "add_friend_success": "{name} با موفقیت اضافه شد!",
   "error:unable_retrieve_user_information": "خطا در بازیابی اطلاعات کاربر."
 }
