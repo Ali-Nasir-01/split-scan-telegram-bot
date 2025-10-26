@@ -1,5 +1,5 @@
 import { Markup, Scenes } from "telegraf";
-import { useTelegramId } from "../utils";
+import { makeButtons, useTelegramId } from "../utils";
 import { createFriend, getFriendsByUserId } from "../models/friends";
 
 interface SceneState {
@@ -93,17 +93,12 @@ manageFriendsScene.on("text", async (ctx) => {
 
     ctx.scene.state.waitingForFriendName = false;
 
-    const buttons = [
-      [Markup.button.callback(ctx.i18n.t("list_friends"), "list_friends")],
-      [Markup.button.callback(ctx.i18n.t("add_friend"), "add_friend")],
-      [Markup.button.callback(ctx.i18n.t("remove_friend"), "remove_friend")],
-      [
-        Markup.button.callback(
-          ctx.i18n.t("back_to_main_menu"),
-          "back_to_main_menu"
-        ),
-      ],
-    ];
+    const buttons = makeButtons(ctx, [
+      { text: "list_friends", actionKey: "list_friends" },
+      { text: "add_friend", actionKey: "add_friend" },
+      { text: "remove_friend", actionKey: "remove_friend" },
+      { text: "back_to_main_menu", actionKey: "back_to_main_menu" },
+    ]);
 
     await ctx.reply(
       ctx.i18n.t("manage_friends_options"),
