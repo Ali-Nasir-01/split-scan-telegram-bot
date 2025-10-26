@@ -1,77 +1,44 @@
-import { Markup, Scenes } from "telegraf";
+import { Scenes } from "telegraf";
 import { getUserByTelegramId } from "../models/users";
+import { useTelegramId, makeKeyboard, type Context } from "../utils";
 
-const mainMenuScene = new Scenes.BaseScene<Scenes.SceneContext>(
-  "mainMenuScene"
-);
+const mainMenuScene = new Scenes.BaseScene<Context>("mainMenuScene");
 
 mainMenuScene.enter(async (ctx) => {
   const telegramId = ctx.from?.id.toString();
   if (!telegramId) {
-    await ctx.reply("Error: Unable to retrieve user information.");
+    await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
     return;
   }
 
-  const user = await getUserByTelegramId(telegramId);
-  const language = user[0]?.language || "fa";
-
-  const buttons =
-    language === "fa"
-      ? [
-          [Markup.button.callback("مدیریت دوستان", "manage_friends")],
-          [Markup.button.callback("اسکن", "scan")],
-        ]
-      : [
-          [Markup.button.callback("Manage Friends", "manage_friends")],
-          [Markup.button.callback("Scan", "scan")],
-        ];
-
-  const welcomeMessage =
-    language === "fa"
-      ? "به منوی اصلی خوش آمدید! لطفاً یک گزینه را انتخاب کنید:"
-      : "Welcome to the main menu! Please choose an option:";
-
-  await ctx.reply(welcomeMessage, Markup.keyboard(buttons).resize());
+  const welcomeMessage = ctx.i18n.t("welcome_message");
+  await ctx.reply(
+    welcomeMessage,
+    makeKeyboard(ctx, [["manage_friends"], ["scan_recipts"]])
+  );
 });
 
-mainMenuScene.action("manage_friends", async (ctx) => {
-  await ctx.answerCbQuery();
+mainMenuScene.hears(/^(Manage Friends|مدیریت دوستان)$/, async (ctx) => {
+  const telegramId = useTelegramId(ctx);
+  if (!telegramId) {
+    await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
+    return;
+  }
+
+  await ctx.scene.enter("manageFriendsScene");
+});
+
+mainMenuScene.hears(/^(Scan Receipts|اسکن رسیدها)$/, async (ctx) => {
   const telegramId = ctx.from?.id.toString();
   if (!telegramId) {
-    await ctx.reply("Error: Unable to retrieve user information.");
+    await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
     return;
   }
 
   const user = await getUserByTelegramId(telegramId);
   const language = user[0]?.language || "en";
 
-  const message =
-    language === "fa"
-      ? "شما گزینه مدیریت دوستان را انتخاب کردید."
-      : "You selected the Manage Friends option.";
-
-  await ctx.reply(message);
-  // Here you can add logic to enter the manage friends scene
-});
-
-mainMenuScene.action("scan", async (ctx) => {
-  await ctx.answerCbQuery();
-  const telegramId = ctx.from?.id.toString();
-  if (!telegramId) {
-    await ctx.reply("Error: Unable to retrieve user information.");
-    return;
-  }
-
-  const user = await getUserByTelegramId(telegramId);
-  const language = user[0]?.language || "en";
-
-  const message =
-    language === "fa"
-      ? "شما گزینه اسکن را انتخاب کردید."
-      : "You selected the Scan option.";
-
-  await ctx.reply(message);
-  // Here you can add logic to enter the scan scene
+  await ctx.reply(ctx.i18n.t("scan_selected"));
 });
 
 export default mainMenuScene;

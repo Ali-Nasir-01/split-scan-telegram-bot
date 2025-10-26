@@ -1,3 +1,21 @@
 {
-  "language_selected": "زبان شما فارسی تنظیم شد."
+  "language_selected": "زبان شما فارسی تنظیم شد.",
+  "manage_friends": "مدیریت دوستان",
+  "scan_recipts": "اسکن رسیدها",
+  "welcome_message": "به منوی اصلی خوش آمدید! لطفاً یک گزینه را انتخاب کنید:",
+  "manage_friends_selected": "شما گزینه مدیریت دوستان را انتخاب کردید.",
+  "manage_friends_welcome": "به بخش مدیریت دوستان خوش آمدید!",
+  "list_friends": "لیست دوستان",
+  "add_friend": "افزودن دوست",
+  "remove_friend": "حذف دوست",
+  "back_to_main_menu": "بازگشت به منوی اصلی",
+  "manage_friends_options": "لطفاً یک گزینه را برای مدیریت دوستان خود انتخاب کنید:",
+  "no_friends_found": "هیچ دوستی پیدا نشد.",
+  "your_friends": "لیست دوستان شما",
+  "friends_list": "لیست دوستان شما:\n{{friends}}",
+  "add_friend_prompt_name": "نام دوستی که میخوای اضافه کنی رو بفرست:",
+  "add_friend_prompt_get_telegram_id": "میتونی آیدی تلگرام دوستت رو بفرستی اگه میخوای وقتی اون عضو ربات شد باهاش مدیریت طبلکاری و بدهکاری داشته باشی: \n (اگه نمیخوای اینو بفرستی هم مشکلی نیست میتونی بعدا اضافه کنی)",
+  "add_friend_success": "{name} با موفقیت اضافه شد!",
+  "error:unable_retrieve_user_information": "خطا در بازیابی اطلاعات کاربر.",
+  "scan_selected": "شما گزینه اسکن را انتخاب کردید."
 }

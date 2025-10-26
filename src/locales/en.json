@@ -1,3 +1,21 @@
 {
-  "language_selected": "Language set to English."
+  "language_selected": "Language set to English.",
+  "manage_friends": "Manage Friends",
+  "scan_recipts": "Scan Receipts",
+  "welcome_message": "Welcome to the main menu! Please choose an option:",
+  "manage_friends_selected": "You selected the Manage Friends option.",
+  "manage_friends_welcome": "Welcome to the Friends Management section!",
+  "list_friends": "List Friends",
+  "add_friend": "Add Friend",
+  "remove_friend": "Remove Friend",
+  "back_to_main_menu": "Back to Main Menu",
+  "manage_friends_options": "Please choose an option to manage your friends:",
+  "no_friends_found": "No friends found.",
+  "your_friends": "Your Friends List",
+  "friends_list": "Your friends list:\n{{friends}}",
+  "add_friend_prompt_name": "Send the name of the friend you want to add:",
+  "add_friend_prompt_get_telegram_id": "Send your friend's Telegram ID if you want to manage expenses with them when they join the bot: \n (If you don't want to send this, it's okay, you can add it later)",
+  "add_friend_success": "{name} has been successfully added!",
+  "error:unable_retrieve_user_information": "Unable to retrieve user information.",
+  "scan_selected": "You selected the Scan option."
 }
