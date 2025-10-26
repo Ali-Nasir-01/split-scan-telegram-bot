@@ -1,10 +1,8 @@
-import { Markup, Scenes } from "telegraf";
+import { Scenes } from "telegraf";
 import { getUserByTelegramId } from "../models/users";
-import { useTelegramId } from "../utils";
+import { useTelegramId, makeKeyboard, type Context } from "../utils";
 
-const mainMenuScene = new Scenes.BaseScene<Scenes.SceneContext>(
-  "mainMenuScene"
-);
+const mainMenuScene = new Scenes.BaseScene<Context>("mainMenuScene");
 
 mainMenuScene.enter(async (ctx) => {
   const telegramId = ctx.from?.id.toString();
@@ -13,20 +11,14 @@ mainMenuScene.enter(async (ctx) => {
     return;
   }
 
-  // const user = await getUserByTelegramId(telegramId);
-
-  const buttons = [
-    [Markup.button.callback(ctx.i18n.t("manage_friends"), "manage_friends")],
-    [Markup.button.callback(ctx.i18n.t("scan_recipts"), "scan_receipts")],
-  ];
-
   const welcomeMessage = ctx.i18n.t("welcome_message");
-
-  await ctx.reply(welcomeMessage, Markup.inlineKeyboard(buttons));
+  await ctx.reply(
+    welcomeMessage,
+    makeKeyboard(ctx, [["manage_friends"], ["scan_recipts"]])
+  );
 });
 
-mainMenuScene.action("manage_friends", async (ctx) => {
-  await ctx.answerCbQuery();
+mainMenuScene.hears(/^(Manage Friends|مدیریت دوستان)$/, async (ctx) => {
   const telegramId = useTelegramId(ctx);
   if (!telegramId) {
     await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
@@ -36,24 +28,17 @@ mainMenuScene.action("manage_friends", async (ctx) => {
   await ctx.scene.enter("manageFriendsScene");
 });
 
-mainMenuScene.action("scan", async (ctx) => {
-  await ctx.answerCbQuery();
+mainMenuScene.hears(/^(Scan Receipts|اسکن رسیدها)$/, async (ctx) => {
   const telegramId = ctx.from?.id.toString();
   if (!telegramId) {
-    await ctx.reply("Error: Unable to retrieve user information.");
+    await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
     return;
   }
 
   const user = await getUserByTelegramId(telegramId);
   const language = user[0]?.language || "en";
 
-  const message =
-    language === "fa"
-      ? "شما گزینه اسکن را انتخاب کردید."
-      : "You selected the Scan option.";
-
-  await ctx.reply(message);
-  // Here you can add logic to enter the scan scene
+  await ctx.reply(ctx.i18n.t("scan_selected"));
 });
 
 export default mainMenuScene;

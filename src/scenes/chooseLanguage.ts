@@ -1,32 +1,33 @@
-import { Markup, Scenes } from "telegraf";
+import { Scenes } from "telegraf";
 import { updateUserLanguage } from "../models/users";
+import { makeKeyboard, type Context } from "../utils";
 
-const languageScene = new Scenes.BaseScene<Scenes.SceneContext>(
-  "languageScene"
-);
+interface SessionData {
+  language?: string;
+}
+
+const languageScene = new Scenes.BaseScene<
+  Context & { scene: { state: SessionData } }
+>("languageScene");
 
 languageScene.enter((ctx) => {
-  ctx.reply(
+  return ctx.reply(
     "Please select your language:",
-    Markup.inlineKeyboard([
-      [Markup.button.callback("🇺🇸 English", "lang_en")],
-      [Markup.button.callback("🇮🇷 فارسی", "lang_fa")],
-    ])
+    makeKeyboard(ctx, [["🇺🇸 English"], ["🇮🇷 فارسی"]])
   );
 });
 
-languageScene.action("lang_en", async (ctx) => {
-  await ctx.answerCbQuery();
-  ctx.session.language = "en";
+languageScene.hears("🇺🇸 English", async (ctx) => {
+  ctx.scene.state.language = "en";
   await updateUserLanguage(ctx.from.id.toString(), "en");
   ctx.i18n.locale("en");
   await ctx.reply(ctx.i18n.t("language_selected"));
   await ctx.scene.enter("mainMenuScene");
 });
 
-languageScene.action("lang_fa", async (ctx) => {
-  await ctx.answerCbQuery();
-  ctx.session.language = "fa";
+languageScene.hears("🇮🇷 فارسی", async (ctx) => {
+  ctx.scene.state.language = "fa";
+  await updateUserLanguage(ctx.from.id.toString(), "fa");
   ctx.i18n.locale("fa");
   await ctx.reply(ctx.i18n.t("language_selected"));
   await ctx.scene.enter("mainMenuScene");
