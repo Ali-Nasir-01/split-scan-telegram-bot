@@ -1,5 +1,6 @@
 import { Markup, Scenes } from "telegraf";
 import { getUserByTelegramId } from "../models/users";
+import { useTelegramId } from "../utils";
 
 const mainMenuScene = new Scenes.BaseScene<Scenes.SceneContext>(
   "mainMenuScene"
@@ -26,17 +27,11 @@ mainMenuScene.enter(async (ctx) => {
 
 mainMenuScene.action("manage_friends", async (ctx) => {
   await ctx.answerCbQuery();
-  const telegramId = ctx.from?.id.toString();
+  const telegramId = useTelegramId(ctx);
   if (!telegramId) {
     await ctx.reply(ctx.i18n.t("error:unable_retrieve_user_information"));
     return;
   }
-
-  // const user = await getUserByTelegramId(telegramId);
-
-  const message = ctx.i18n.t("manage_friends_selected");
-
-  await ctx.reply(message);
 
   await ctx.scene.enter("manageFriendsScene");
 });
